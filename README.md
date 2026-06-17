@@ -2,17 +2,16 @@
 
 A Bash script that installs all dependencies for my dotfiles. It detects your Linux distro, resolves the correct package names for your package manager, installs everything in one batch, and handles post-install setup automatically.
 
-> **Recommended platform: Fedora.** This script is written and tested on Fedora. It has cross-distro support for Debian/Ubuntu, Arch Linux, openSUSE Tumbleweed, and Alpine Linux, but these are provided on a best-effort basis and are not tested. If you are on a supported non-Fedora distro, things will likely work, but you will need to edge cases yourself.
+> **Recommended platform: Fedora.** This script is written and tested on Fedora. It has cross-distro support for Debian/Ubuntu, Arch Linux, openSUSE Tumbleweed, and Alpine Linux, but these are provided on a best-effort basis and are not tested. If you are on a supported non-Fedora distro, things will likely work, but you will need to handle edge cases yourself.
 
 ---
 
 ## Requirements
 
-- Bash 4.0 or later (required for associative arrays)
-- `sudo` access
-- Internet access (for non-package-manager installs: starship, rmpc, mpd-discord-rpc)
-- `curl` — used by the starship installer (almost always pre-installed)
-- `cargo` — (required for rmpc and mpd-discord-rpc)
+- Bash 4.0 or later
+- `sudo` privaleges
+- `curl` — used by the starship installer
+- `cargo`
 
 ---
 
@@ -32,24 +31,17 @@ chmod +x dep-install.sh
 
 ## Usage
 
-```
-./dep-install.sh [OPTIONS]
-```
-
 | Flag | Description |
 |---|---|
-| `-n`, `--dry-run` | Show what would be installed without making any changes |
-| `-i`, `--interactive` | Prompt for confirmation before each package |
-| `-h`, `--help` | Display help and exit |
+| `-n` / `--dry-run` | Show what would be installed without making any changes |
+| `-i` / `--interactive` | Prompt for confirmation before each package |
+| `-h` / `--help` | Display help and exit |
 
 ### Examples
 
 ```bash
-# See exactly what the script would do on your distro
+# See exactly what the script would install
 ./dep-install.sh --dry-run
-
-# Run non-interactively (recommended for first-time setup)
-./dep-install.sh
 
 # Confirm each package individually before installing
 ./dep-install.sh --interactive
@@ -62,7 +54,7 @@ chmod +x dep-install.sh
 
 ## What Gets Installed
 
-The script works in three phases.
+The script works in three separate phases:
 
 ### Phase 1 — Package Manager
 
@@ -70,12 +62,12 @@ All packages that are available in official distro repositories are installed in
 
 | Package | Description |
 |---|---|
-| `stow` | GNU Stow — used to manage the dotfiles symlinks themselves |
+| `stow` | GNU Stow — used to manage symlinks |
 | `curl` | Used by the starship installer |
 | `cargo` | Rust toolchain — required for Phase 2 installs |
 | `neovim` | Text editor |
 | `fish` | Fish shell |
-| `kitty` | GPU-accelerated terminal emulator |
+| `kitty` | My terminal emulator of choice |
 | `fastfetch` | System info display |
 | `fuzzel` | Wayland application launcher |
 | `kanshi` | Wayland output management daemon |
@@ -88,7 +80,7 @@ All packages that are available in official distro repositories are installed in
 | `swaylock` | Screen locker for sway |
 | `waybar` | Wayland status bar |
 | `yazi` | Terminal file manager |
-| `dosbox-staging` | DOSBox fork (note: Debian/Ubuntu/openSUSE/Alpine install `dosbox` instead) |
+| `dosbox-staging` | DOSBox fork (Debian/Ubuntu/openSUSE/Alpine use `dosbox` instead) |
 | `ulauncher` | Application launcher (Fedora and Debian/Ubuntu only — see [Distro Notes](#distro-notes)) |
 | `swaync` | Notification centre for sway (all distros except Fedora and Alpine — see [Distro Notes](#distro-notes)) |
 
@@ -117,9 +109,11 @@ Runs automatically after all installs, with no user interaction required.
 
 ### Fedora is Recommended
 
-All packages are available. swaync requires a COPR repo which the script enables automatically. Everything else installs from official Fedora repositories. Already-installed packages are also skipped.
+All packages are available. swaync requires a COPR repo which the script enables automatically. Everything else installs from official Fedora repositories. Already installed packages are also skipped.
 
-### Debian / Ubuntu is *Supported*
+'* = kinda...'
+
+### Debian / Ubuntu is *Supported* *
 
 Most packages install cleanly. A few version notes:
 
@@ -128,7 +122,7 @@ Most packages install cleanly. A few version notes:
 
 Already-installed packages are a noop by default with `apt-get`.
 
-### Arch Linux (Along with Arch-based distros) *Supported*
+### Arch Linux (Along with Arch-based distros) *Supported* *
 
 Most packages are in the official repos. Two exceptions:
 
@@ -137,7 +131,7 @@ Most packages are in the official repos. Two exceptions:
 
 Already-installed packages are skipped via `pacman --needed`.
 
-### openSUSE Tumbleweed *Supported*
+### openSUSE Tumbleweed *Supported* *
 
 Most packages are available. Two exceptions:
 
@@ -147,7 +141,7 @@ Most packages are available. Two exceptions:
 
 Already-installed packages are a no-op by default with `zypper`.
 
-### Alpine Linux *Supported* (but limited)
+### Alpine Linux *Supported* (but limited) *
 
 Alpine is the most limited target. Several packages are missing from Alpine's repos and will be skipped:
 
@@ -192,17 +186,3 @@ Once created, re-run the script (Phase 3 will pick it up), or enable it manually
 ```bash
 systemctl --user enable --now mpd-discord-rpc
 ```
-
----
-
-## Adding or Modifying Packages
-
-The package map is at the top of the script in `PKG_MAP`. Each entry maps a canonical key to the package name on each distro, space-separated in this order:
-
-```
-["key"]="fedora  debian  arch  opensuse  alpine"
-```
-
-Leave a field blank if the package is unavailable on that distro — the script will skip it and log a warning. Add the key to `PKG_ORDER` as well to control where it appears in the install sequence and in `--interactive` prompts.
-
-For packages that require special handling beyond a plain `PM install` (COPR repos, AUR, curl installers), add an `install_<name>()` function in Phase 2 and register it in `NON_PM_INSTALLS`.
