@@ -17,3 +17,5 @@
 .config/mpd/log
 # Nicotine+
 .config/nicotine/*
+# Aseprite
+.config/aseprite/*
