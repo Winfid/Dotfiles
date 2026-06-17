@@ -1,0 +1,163 @@
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³         FONTMAN Ver. 2.2 (c) 1992..95, Horst Schaeffer             ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+    FONTMAN is a VGA character font editor for modification of VGA screen
+    fonts in text mode with 25/28/33/40/50 lines (80 columns only).
+
+    A character font can be saved in a file and activated any time
+    (on the command line or in batch files) with the VGA.COM utility.
+
+    Character fonts remain active until the video mode is changed or reset
+    by a program (or by MODE command).
+
+    Note: ****************************************************************
+    Screen character fonts have no influence on printer character fonts!
+    **********************************************************************
+
+
+    VGA character matrix
+    --------------------
+    In standard text mode the VGA screen has 400 scan lines with 720
+    (horizontal) pixels. This results in a character matrix of 16 scan
+    lines by 9 pixels for the standard screen of 25 lines by 80 columns.
+
+    Actually only 8 pixels are used in the character matrix. The 9th
+    column remains blank, except for characters with ASCII code 192 thru
+    223 decimal (hex C0 thru DF), where the 9th column is copied from the
+    8th column by the VGA card to support continuous horizontal lines.
+
+    The FONTMAN editing matrix automatically shows the correct status
+    of the 9th column.
+
+    Note: If you use a LCD display with only 400 by 640 Pixels, the 9th
+    column does not exist. That means there is no extra space between
+    characters. Keep this in mind, if you make character fonts for LCD
+    displays.
+
+
+    Font formats
+    ------------
+    Using a character matrix of less than 16 scan lines automatically
+    increases the number of text lines that fit on the screen.
+
+    FONTMAN supports the following formats:
+
+        scan lines     lines      file
+        /character    /screen     size
+        ---------------------------------
+           16           25        4096
+           14           28        3584
+           12           33        3072
+           10           40        2560
+            8           50        2048
+
+    The file size results from the number of scan lines (with 8 bits)
+    multiplied by a total of 256 characters.
+
+
+    Loading character fonts
+    -----------------------
+    FONTMAN offers loading character fonts either from a file or from the
+    VGA card, which has 3 built-in fonts with 16, 14 and 8 scan lines.
+
+    If you choose to load from a file, a directory window is displayed
+    for selection (to change drive: just type the drive letter).
+
+    The format of the character set is determined by the file size.
+
+
+    Format conversion
+    -----------------
+    Before you start editing, FONTMAN offers a format conversion.
+    For example, you can use the SANSMALL.F12 font (12 scan lines) to make
+    a smaller SanSerif font with full 16 scan lines (25 text lines).
+
+    "Conversion" means that the appropriate number of scan lines at the
+    top and the bottom of the character matrix is removed or added.
+    For the graphic characters (ASCII code 176 thru 223) and for "ôõ"
+    the pattern is extended into the additional lines.
+
+
+    Display mode
+    ------------
+    For character fonts with less than 16 scan lines FONTMAN offers two
+    display modes (toggle with F1):
+
+    >>  "True mode" with the number of text lines (28..50) set according
+        to the character matrix.
+
+    >>  Standard 25 lines mode for easier handling.
+
+    For the 25 lines mode the character font is internally converted to
+    16 scan lines. Editing starts in this mode.
+
+
+    FONTMAN Handling
+    ----------------
+    You may use your mouse for prompts, selection and editing. The mouse
+    is operated in keyboard emulation mode, that is: mouse movement
+    corresponds to cursor keys, left button = ENTER, right button = ESC.
+
+    Prompts with bar also allow typing the first character of an item.
+
+
+    Editing
+    -------
+    To modify a character matrix, you have to select a character three
+    times (usually all three the same). Each code can be entered as a
+    character or selected by cursor/mouse:
+
+    (1) "Character code"
+        With this code the result of your editing will be stored
+
+    (2) "initialize with:"
+        This character is taken as initial pattern. For example you can
+        use "a" to design a new "„".
+
+    (3) "to compare with:"
+        This character can be shown any time during editing (by TAB key)
+        to compare it with the current character pattern.
+
+    After a character has been modified, it is activated in the current
+    font to reflect the result of your effort.
+
+
+    Test file
+    ---------
+    Sometimes you may wish to see, what graphic patterns look like in
+    combination with others or in multiple arrangements. FONTMAN offers
+    to display a test field in the character selection window (by F2 key).
+
+    You can use or make any ASCII text file, and pass it to FONTMAN as
+    command parameter. Only the first 8 lines by 32 columns will be taken.
+    Example:
+              FONTMAN \util\div\TEST.PAT
+
+    Be sure to select "true display mode" (F1) if fonts with less than
+    16 scan lines are edited.
+
+
+    Using VGA.COM
+    -------------
+    Once you have saved a character font, you can activate it any time
+    using the VGA.COM utility. Depending on the file size (the scan lines
+    of the character matrix) VGA.COM switches to 25,28,33,40 or 50 text
+    lines.
+
+    Command:  VGA FONT <file>
+
+    If you omit the filename, the built-in VGA font (25 text lines) is
+    activated.
+
+    Note: see VGA.DOC or run VGA/? for complete set of functions
+
+    ----------------------------------------------------------------------
+
+    FONTMAN ver 2.2, Copyright 1992..95 by Horst Schaeffer
+    is part of the FONTMAN+PALMAN package - see READ.ME file
+
+    ----------------------------------------------------------------------
+***
+

@@ -1,0 +1,61 @@
+DIRECTIONS FOR CREATING A 40-LINE FONT USING THE VGAMAX FONT UTILITIES,
+AND INSTALLING IT USING VGAMAX:
+
+
+
+CREATING THE FONT
+-----------------
+
+        1.      start out at the DOS prompt.
+
+        2.      install VGAMAX like this:  VGAMAX /N1
+
+        3.      press Ctrl-Alt-6 to switch to VGA 50-line mode (or EGA
+                43-line mode).
+
+        4.      run GRABFONT to snag the font:  GRABFONT ROM.F8
+
+        5.      run FED to edit the font:  FED ROM.F8
+
+        6.      press [F4] to change to size of the font.
+
+        7.      press the [up] arrow twice (so that the new point size
+                is 10).
+
+        8.      press [Enter].  FED will instantly turn the font into a
+                40-line font (10-point font), and will even make the box
+                characters look right.
+
+        9.      press [F2] to save the new font.
+
+        10.     type in a name for the font (40LINE.FNT or whatever.  I
+                use the convention where I give an eight-letter name to
+                the font and use an extension of "F" and the point size
+                of the font, so I personally would call the font ROM.F10
+                or something).
+
+        11.     now press [ESC] to get out of FED.
+
+        12.     uninstall VGAMAX:  VGAMAX /U
+
+
+
+INSTALLING THE FONT
+-------------------
+
+        1.      install VGAMAX however you want, but make sure you load
+                the 40-line font you just created into one of the font
+                banks.
+
+        2.      now use this command:  VGAMAX /A<z>
+                where <z> is the bank you loaded the 40-line font into.
+                note that you could also just tack on /A<z> to the end
+                of the command line you used when you installed VGAMAX
+                in step 1.
+
+        3.      now, whenever a program tries to switch to 50-line mode,
+                VGAMAX will activate your 40-line font.  this may cause
+                conflicts with some applications that expect to actually
+                get 50 lines, but many applications that can use more
+                than 25 lines are intelligent enough to ask the video
+                card how many lines there are.

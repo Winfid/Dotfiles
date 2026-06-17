@@ -1,0 +1,58 @@
+    ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+    ³           VTYPE ver. 2.2 (c) 1994..95, Horst Schaeffer             ³
+    ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+    VTYPE is a fast TYPE replacement with ANSI emulation.
+
+    Because VTYPE writes directly into the video RAM, it does not support
+    output redirection, however input may be redirected, i.e. piped from
+    an other program. ANSI.SYS (or equivalent) is not required.
+
+    VTYPE should handle ANSI sequences like ANSI.SYS does (except keyboard
+    reassignments and mode changes) - with the following enhancement:
+
+        [2J    blanks the screen - but if, instead of "2", the ASCII
+                value of a character (greater than 32) is used, the screen
+                is filled with this character. You may also use the
+                character itself, enclosed in (single or double) quotes.
+                Examples:
+
+        [177J  fills the screen with "±" (ASCII 177 pattern)
+        ["±"J  will do the same
+
+
+    VTYPE recognizes the current screen size (total lines) and width.
+
+    Command options:
+
+        /C      Clear screen with color found at current cursor position
+
+        /P[n]   Pause after n lines on screen and at end of file (*)
+                (default n = screen lines -1).
+                VTYPE counts the lines on the screen (not in the file)
+
+        /S      Slow (about 18 lines per second), any key pauses (*)
+
+        /An     pause on ASCII Code (n: decimal value) occurring in file
+
+        /L50    switch from 25 to 50 lines mode
+                pausing at end, before switching back to 25 lines
+
+        /J      If the size of a line is exactly equal to the screen width
+                (normally 80 characters), VTYPE will not make an additional
+                line feed - as TYPE does.
+
+        /X      ANSI off
+
+
+    (*) Pauses are suspended until the bottom of screen is reached (!)
+
+    Pause keys:
+        ESC to abort, cursor down to pause again after next line.
+        Any other key continues.
+
+    -----------------------------------------------
+    VTYPE.COM ver 2.2, Copyright 1994..1995 by Horst Schaeffer
+    is part of the FONTMAN+PALMAN tools - see READ.ME file
+
+= 15 SEP 1995

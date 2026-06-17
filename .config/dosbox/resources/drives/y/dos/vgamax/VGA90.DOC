@@ -1,0 +1,96 @@
+
+
+        ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+                                     VGA90
+                              by Christopher Antos
+
+
+                                  August 1990
+
+
+        ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+                             Questions or Comments?
+
+
+        Please write to:        Christopher Antos
+                                2115 Windsor Drive
+                                Ann Arbor, Michigan
+                                        48103-5652
+
+
+        Or electronically,
+                via Internet:   Christopher_Antos@ub.umich.cc.edu
+
+
+        ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+
+
+        VGA90 is part of the VGAFontMax package.  If you continue to use
+        VGA90, you are expected to send in the registration form and fee
+        for the VGAFontMax package.  Thank you for your support.
+
+
+
+
+        อออออออ INSTRUCTIONS อออออออออออออออออออออออออออออออออออออออออออ
+
+
+        VGA90 is a tiny utility that lets you switch your standard IBM
+        VGA display (and most third-party VGA and SuperVGA boards) into
+        an undocumented 90-column mode.  On some multisync monitors you
+        may have to re-center the image after switching into or out of
+        the 90-column mode.  The standard IBM VGA monitor has trouble
+        displaying the leftmost column of the screen, although the rest
+        of the screen is displayed normally.
+
+        To see how to use VGA90, just type "VGA90 /?" at the DOS command
+        prompt.  It will print out a short description of how to use
+        VGA90.
+
+        To switch into 90-column mode, type "VGA90 /ON" or just "VGA90"
+        at the DOS command prompt.  To switch back, type "VGA90 /OFF".
+        The "on" and "off" commands may be shortened to "VGA90 O" and
+        "VGA90 F", if desired.
+
+        VGA90 works by temporarily reprogramming the VGA board to
+        display 8-bit wide characters instead of the normal 9-bit wide
+        characters.  Please note that many older applications (and
+        unfortunately, many of the newer ones, too) do not support
+        90-column displays.  If a program does not support the 90-column
+        display, the screen will appear to be sliced up and shifted
+        around slightly.
+
+        Here is a list of some programs that are known to support
+        90-column (and higher) modes:
+
+                QEdit (from SemWare)
+                List (by Vernon Buerg)
+
+        Here are some that do NOT support 90-column (or higher) modes:
+
+                ProComm Plus (from DataStorm)
+                Norton Utilities (from Peter Norton Computing)
+                Microsoft Word
+                SpinRite II (from Gibson Research)
+                XTree Pro Gold (from Executive Systems)
+
+
+
+
+        ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ
+
+
+        I hope you find VGA90 and the VGAFontMax package useful.  Please
+        feel free to write and make suggestions, complaints, or
+        compliments.
+
+                                        Christopher Antos
+
+
+        ออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออ

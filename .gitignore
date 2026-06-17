@@ -1,2 +1,17 @@
+# Standard Excludes
 .env
 .ssh/
+
+### Personal Files
+# DosBox
+.config/dosbox/HDD/*
+.config/dosbox/CDROM/*
+.config/dosbox/soundfonts/*
+.config/dosbox/mt32-roms/*
+.cofig/dosbox/shell_history.txt
+# MPD
+.config/playlists/*
+.config/database
+.config/log
+# Nicotine+
+.config/nicotine/

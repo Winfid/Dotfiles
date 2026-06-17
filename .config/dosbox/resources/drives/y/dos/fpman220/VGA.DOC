@@ -1,0 +1,41 @@
+    旼컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴커
+    �         VGA Utility Ver. 2.2 (c) 1992..95, Horst Schaeffer         �
+    읕컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴켸
+
+    The VGA.COM utility offers the following functions:
+
+    VGA FONT <file>       load character font (see FONTMAN.DOC)
+                          depending on the size of the font file
+                          the screen mode will be changed to
+                          25/28/33/40/50 text lines
+
+    VGA PAL <file>        load color palette (see PALMAN.DOC)
+                          Option /F   to make palette reset resistant
+                                 /R   to deactivate /F option
+
+    VGA LINES 25|28|50    select 25/28/50 line mode by activating
+                          one of the built-in standard character fonts
+
+    VGA FRAME <color>     select frame ("overscan") color
+
+    VGA BLINK | BRIGHT    toggle blink attribute / bright background
+
+    VGA GREY | COLOR      select gray scale/color mode (incl. VGA reset)
+
+    VGA RESET             Reset (current video mode)
+
+
+    Instructions may be combined, for example:
+
+        VGA grey, font SANSERIF.FNT
+        VGA font SANSERIF.FNT, pal MY.PAL, bright, frame yellow
+
+    An equal sign may preceed the specification:
+
+        VGA font=SANSERIF.FNT, frame=yellow
+
+    -----------------------------------------------
+    VGA.COM ver 2.2, Copyright 1992..1995 by Horst Schaeffer
+    is part of the FONTMAN+PALMAN tools - see READ.ME file
+
+= 15 SEP 1995

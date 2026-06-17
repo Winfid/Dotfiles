@@ -1,0 +1,23 @@
+;       Default ROM VGA palette.
+
+;       To create:
+;               PMAKE USER.ROM ROM.PAL
+
+        00,00,00        ;black
+        00,00,42        ;blue
+        00,42,00        ;green
+        00,42,42        ;cyan
+        42,00,00        ;red
+        42,00,42        ;magenta
+        42,21,00        ;brown
+        42,42,42        ;gray
+        21,21,21        ;dark gray
+        00,00,63        ;bright blue
+        00,63,00        ;bright green
+        00,63,63        ;bright red
+        63,00,00        ;bright red
+        63,00,63        ;bright magenta
+        63,63,00        ;bright yellow
+        63,63,63        ;bright white
+
+;       Can also be used as a template for making new palettes.

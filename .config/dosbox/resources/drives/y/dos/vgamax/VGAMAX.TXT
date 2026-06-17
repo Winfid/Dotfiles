@@ -1,0 +1,418 @@
+
+
+
+
+                                   VGAMAX 2.0
+                              by Christopher Antos
+
+
+
+
+                                  Introduction
+                                  ------------
+
+
+        VGAMAX is a TSR utility that intercepts BIOS requests to change
+        the video mode or the video font.  VGAMAX will substitute a font
+        of your choice for the default ROM fonts that you usually see on
+        your screen.  VGAMAX only affects text mode, and does not do
+        anything when a graphics request comes in--VGAMAX lets the ROM
+        BIOS handle all graphics requests.
+
+        VGAMAX has a built-in help screen which lists the valid
+        commands.  To see the help screen, type VGAMAX ? at the DOS
+        prompt.
+
+
+
+
+                                  Using VGAMAX
+                                  ============
+
+
+
+        First, you must install VGAMAX.  To do this, you must decided
+        how many "font banks" you want to have.  A font bank is a chunk
+        of memory which VGAMAX uses to store your custom fonts.  You can
+        tell VGAMAX to reserve up to 8 font banks, each of which can
+        hold a different font.
+
+        To make VGAMAX substitute one of your custom fonts for a ROM
+        BIOS font, you tell VGAMAX which font bank contains the
+        particular custom font you want to use.
+
+        The following three sections explain how to install VGAMAX using
+        the three different types of memory:  conventional memory, EMS
+        memory, and XMS memory.  If you have High RAM and utility that
+        lets you use it, you can load VGAMAX into High RAM, too.  See
+        your High RAM memory manager manuals for information on how to
+        do this.
+
+
+                              Conventional Memory
+                              -------------------
+
+        If you don't have High RAM, EMS memory, or XMS memory, you will
+        have to install VGAMAX into conventional memory.  This method of
+        installation takes the most memory away from DOS (or High RAM).
+        VGAMAX will take 3k for the program code, and 4k per font bank.
+
+        To install VGAMAX, use this command:
+
+                VGAMAX /N<z>
+
+        where <z> is the number of font banks to reserve.  See the
+        section "Features" to find out what you can do with VGAMAX once
+        it's installed.
+
+
+                                   EMS Memory
+                                   ----------
+
+        VGAMAX can use EMS memory for its font banks.  This allows
+        VGAMAX to only take away 3k from DOS (or use 3k of High RAM).
+        However, since EMS memory can only be reserved in 16k chunks,
+        VGAMAX will give you either 4 or 8 font banks.  If you request 4
+        or fewer, VGAMAX will give you 4.  If you request 5 or more,
+        VGAMAX will give you 8.
+
+        To use EMS memory, use this command:
+
+                VGAMAX /N<z> /E
+
+        where <z> is the number of font banks to reserve.  See the
+        section "Features" to find out what you can do with VGAMAX once
+        it's installed.
+
+
+                                   XMS Memory
+                                   ----------
+
+        VGAMAX can use XMS memory for its font banks.  If you use XMS
+        memory, VGAMAX will take 7k away from DOS (or use 7k of High
+        RAM).  The font banks will be in XMS memory, though.  You can
+        reserve up to 8 font banks.  Each font bank will take 4k of XMS
+        memory.
+
+        To use XMS memory, use this command:
+
+                VGAMAX /N<z> /X
+
+        where <z> is the number of font banks to reserve.  See the
+        section "Features" (below) to find out what you can do with
+        VGAMAX once it's installed.
+
+
+
+
+                                    Features
+                                    ========
+
+
+
+        VGAMAX has many options, which are outlined below.  Keep in mind
+        that I'm a college student and don't have the time to explain
+        each feature in detail.  You'll have to do some experimenting.
+        I've done my best to make VGAMAX easy to use and understand,
+        though.
+
+
+                                 Loading Fonts
+                                 -------------
+
+        Before you can do anything with fonts, you must load a font into
+        a font bank.  Use this command:
+
+                VGAMAX /F<z><fontfile>
+
+        where <z> is the number of the bank into which you want to load
+        the font in the file <fontfile>.  You can load a different font
+        into each font bank VGAMAX has reserved.
+
+
+                            Activating a Custom Font
+                            ------------------------
+
+        Once a font is loaded into a font bank, you can tell VGAMAX to
+        activate that font by using this command:
+
+                VGAMAX /F<z>
+
+        where <z> is the number of the bank into which you loaded the
+        font.
+
+
+                         Substituting for the ROM Fonts
+                         ------------------------------
+
+        VGAMAX can substitute the font of your choice for the 8x8 font
+        (used in 50-line and 43-line display modes), the 8x14 font (used
+        in 28-line mode on the VGA, or as the default font on the EGA),
+        or for the 8x16 font (the default font for VGA cards).
+
+        To tell VGAMAX to use a custom font in place of the 8x8 font,
+        use this command:
+
+                VGAMAX /A<z>
+
+        where <z> is the number of the bank into which you loaded the
+        font.  This font will be activated automatically whenever any
+        program tries to switch to 50-line mode or 43-line mode.  (Note
+        that your custom font doesn't need to be an 8x8 font--it can be
+        whatever you want--an 8x16 font, or maybe an 8x7 font to give
+        you even MORE lines of text on the screen!)
+
+        To tell VGAMAX to use a custom font in place of the 8x14 font,
+        use this command (for EGA cards, don't use this command, use the
+        next one):
+
+                VGAMAX /B<z>
+
+        where <z> is again the bank where the font resides.  This font
+        will be used whenever a program tries to activate the ROM 8x14
+        font.  (Note that your custom font doesn't need to be an 8x14
+        font!)
+
+        To tell VGAMAX to use a custom font in place of the default
+        system font, use this command:
+
+                VGAMAX /M<z>
+
+        where <z> is (you guessed it) the bank where the font resides.
+        This font will be used whenever a program switches to normal
+        25-line text mode.  (Note that you can use any size font--you
+        could use an 8x8 font, for instance, to force the computer to
+        always be in 50-line mode!)
+
+        To disable any of these font substitutions, use the same letter
+        command as you did to enable them, but tell VGAMAX to use bank
+        zero.  For example:
+
+                VGAMAX /A0
+                VGAMAX /B0
+                VGAMAX /M0
+
+
+                                  VGA Palettes
+                                  ------------
+
+        If you have a VGA card, you can tell VGAMAX to replace the
+        default text mode palette with a custom palette you create.  See
+        the section "PMAKE:  The Palette Creator" for information on
+        creating palettes.
+
+        To load your custom palette into VGAMAX, use the command:
+
+                VGAMAX /P<palettefile>
+
+        where <palettefile> is the filename of your custom palette.  Now
+        that the palette is loaded, you need to tell VGAMAX to use your
+        palette.  To do this, use this command:
+
+                VGAMAX /P
+
+        Note that the "/P" command with a filename is very different
+        from the "/P" command without a filename.  The former loads a
+        custom palette, the latter activates your custom palette.  If
+        you want to revert to the default palette, use the command:
+
+                VGAMAX /R
+
+
+                                  The Hotkeys
+                                  -----------
+
+        VGAMAX lets you switch between fonts and palettes at the touch
+        of a key, too!
+
+        You can press Ctrl-Alt-0 (NOT on the numeric keypad) to cycle
+        through the loaded fonts until you find one you like.
+
+        To switch to the 8x8 font (the ROM default font, or your custom
+        font if you've used the /A option), press Ctrl-Alt-6.
+
+        To switch to the 8x14 font (the ROM default font, or your custom
+        font if you've used the /B option), press Ctrl-Alt-7.
+
+        To switch to the 8x16 font (the ROM default font, or your custom
+        font if you've used the /M option), press Ctrl-Alt-8.
+        (Pressing Ctrl-Alt-9 will do the same thing).
+
+        To switch to your custom palette, press Ctrl-Alt-[ (that's the
+        left square bracket, next to the "P" key).
+
+        To switch to the default ROM palette, press Ctrl-Alt-] (right
+        square bracket).
+
+
+                       Changing the Number of Font Banks
+                       ---------------------------------
+
+        If you are using EMS memory or XMS memory to hold the font
+        banks, you can tell VGAMAX to change the number of font banks it
+        has reserved.  Just use this command:
+
+                VGAMAX /N<z>
+
+        where <z> is the new number of banks.  If this is fewer than the
+        number of banks you had previously reserved, VGAMAX will release
+        the unneeded banks (thus losing the fonts in them).  If the new
+        number of banks is greater than it was before, then VGAMAX will
+        make room for more fonts, but will not affect the fonts
+        currently loaded.  If the number is the same then nothing
+        happens.
+
+        If you are using conventional memory, then you will have to
+        uninstall VGAMAX and reinstall it to change the number of font
+        banks (thereby losing ALL the loaded fonts).
+
+
+                              Uninstalling VGAMAX
+                              -------------------
+
+        To uninstall VGAMAX, first make sure that there are no memory
+        resident programs still installed which were installed after
+        VGAMAX was.  Then use this command:
+
+                VGAMAX /U
+
+
+                                     Hints
+                                     -----
+
+        The VGAMAX commands have each been explained separately above.
+        However, you can mix multiple commands together.  For instance,
+        to install VGAMAX, reserve 4 font banks in EMS memory, load a
+        font into bank 2, load another into bank 3, activate the font in
+        bank 2, load a custom palette, and activate that palette, you
+        might use this command:
+
+                VGAMAX /N4/E/F2myfont.a/F3myfont.b/F2/Pmypal/P
+
+
+
+
+                               The Font Utilities
+                               ==================
+
+
+
+                             FED:  The Font Editor
+                             ---------------------
+
+        FED is a quick and dirty font editor which lets you create and
+        modify fonts for VGAMAX (and similar custom font programs).  It
+        is fairly self-explanatory, so please just experiment with it
+        and figure out how it works on your own.  I'm just a struggling
+        student.  I can't fully document everything I do.  My apologies.
+
+
+                          GRABFONT:  The Font Grabber
+                          ---------------------------
+
+        If there's a program that uses a cool font and you'd like to use
+        that font yourself, you can use GRABFONT to snag the font for
+        use with VGAMAX (and similar custom font programs).
+
+        GRABFONT only works from the DOS prompt, so you will have to
+        either shell to DOS or hope that your program doesn't switch
+        back to the ROM font when it is done.
+
+        To grab a font, use this command:
+
+                GRABFONT <fontname>
+
+        where <fontname> is a filename you want to save the font under.
+
+
+                          PMAKE:  The Palette Creator
+                          ---------------------------
+
+        PMAKE lets you create VGA palette files for VGAMAX's user
+        palette feature.  The input file is an ASCII script file, and
+        the output file is a VGAMAX palette file.
+
+        The ASCII script file must have 16 lines which describe the 16
+        colors you want to use.  Each of these lines must have three
+        decimal (base 10) numbers which give the Red, Green, and Blue
+        values for the color.  Each individual RGB value can range from
+        0 to 63.  The three values must be separated by commas.  An
+        example follows:
+
+                 0,  0,  0      ;black
+                 0,  0, 42      ;blue
+                 0, 42,  0      ;green
+                 0, 42, 42      ;cyan
+                42,  0,  0      ;red
+                42,  0, 42      ;magenta
+                 0, 42, 63      ;brown
+                42, 42, 42      ;gray
+                21, 21, 21      ;dark gray
+                 0,  0, 63      ;bright blue
+                 0, 63,  0      ;bright green
+                 0, 63, 63      ;bright cyan
+                63,  0,  0      ;bright red
+                63,  0, 63      ;bright magenta
+                63, 63,  0      ;bright yellow
+                63, 63, 63      ;bright white
+
+        This example defines the default color palette that your VGA
+        video card uses (in fact, all the video cards use the same
+        default palette, but VGAMAX can only work "palette magic" with
+        the VGA card).  The file "USER.ROM" is a good starting point for
+        creating your own palette files (it holds the above default
+        definitions).
+
+        The ASCII script file may contain more than 16 lines, but the
+        additional lines must be either blank lines or comment lines.
+        Comment lines must begin with a semicolon (;).
+
+        PMAKE is used to "compile" the script file into a VGAMAX palette
+        file.  To compile a script file, use this command:
+
+                PMAKE <infile> <outfile>
+
+        where <infile> is the filename of the ASCII script file and
+        <outfile> is the filename of the VGAMAX palette file to produce.
+
+
+                                   Donations
+                                   ---------
+
+        As I mentioned earlier, I'm a struggling student.  This utility
+        is a quality utility, with a couple years of use behind it (I
+        only recently decided to release it to the public).  It's
+        DonationWare.  In other words, if you like it, please send a
+        donation of $5 to the US address below.
+
+
+                                   Known Bugs
+                                   ----------
+
+        Since I don't have access to a computer with an EGA or MCGA
+        video card, I can't say that VGAMAX will work for sure on them.
+        In fact, I think it will encounter some problems, because I
+        added some code to VGAMAX to make it figure out if you have an
+        EGA or MCGA card and do some things differently than for a VGA.
+        These things probably will not work, since currently I have no
+        way to debug them.
+
+        Other than this shortcoming, VGAMAX should be bug free.  If you
+        find or think you may have found a bug, please contact me:
+
+                Internet:       christopher_antos@ub.cc.umich.edu
+
+                US Mail:        Christopher Antos
+                                2115 Windsor Drive
+                                Ann Arbor, MI.  48103
+                                U.S.A.
+
+
+                                   Disclaimer
+                                   ----------
+
+        In the (unlikely) event that anything goes wrong or that VGAMAX
+        in some way damages your computer or your data or causes any
+        kind of liability to you, I AM NOT RESPONSIBLE IN ANY WAY.
+
+        Thank you for trying VGAMAX.  I hope it is useful for you.

@@ -1,0 +1,93 @@
+    旼컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴커
+    �          PALMAN Ver. 2.2 (c) 1993..95, Horst Schaeffer             �
+    읕컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴켸
+
+
+    PALMAN is a VGA color palette editor that offers easy slide control
+    of the red/green/blue components for each of the 16 colors that can
+    be used in standard text mode.
+
+    A Color palette can be saved in a file and activated any time
+    (on the command line or in batch files) with the VGA.COM utility.
+
+
+    Color palettes
+    --------------
+    Text mode allows the use of 16 different colors, 8 "normal" and
+    8 "bright" colors.
+
+    Each color is composed of the three components RED, GREEN and BLUE,
+    which can individually be scaled with values from 0 to 63.
+
+    Thus a color palette is stored in a table of 16*3 values (48 bytes).
+    PALMAN accepts palette files with this size only.
+
+
+    PALMAN editor
+    -------------
+    After starting PALMAN you select the palette that you want to use as
+    the base of your changes:
+
+        >  from a file
+        >  currently active palette
+
+    Use cursor keys or mouse to select. The mouse is operated in keyboard
+    emulation mode: mouse movement corresponds to the cursor keys.
+    Left button = ENTER, right button = ESC.
+
+    Please follow the handling instructions.
+    When you choose to load a PAL file, a file directory is offered
+    (to change drive: just type the drive letter).
+
+    After selecting one of the basic colors and the attribute "normal"
+    or "bright", the current R/G/B scales for this color are shown.
+
+    On the left side you select the component R/G/B to modify (ENTER).
+    Then you can slide the component by cursor or mouse (just move the
+    mouse, don't drag). The current color composition will change in real
+    time.
+
+    The "initial" R/G/B values (0...63) always refer to the color palette
+    you started with, and are not changed by the current modifications.
+
+    To select another component or another color, or to store the complete
+    palette, follow the instructions.
+
+    Bevor you leave PALMAN you decide to...
+
+    >   keep the current palette
+    >   restore original palette that was active before editing
+    >   do a complete video reset to activate the standard palette
+
+
+    Using VGA.COM
+    -------------
+    Once you have saved a color palette, you can activate it any time
+    using the VGA.COM utility.
+
+    Command:  VGA PAL <file> [option]
+
+    Usually the activated palette is lost with the next video reset.
+    (done by a program for example). However, the BIOS offers a way to
+    make a custom palette "reset resistant":
+
+    Option:   /F  FIX: palette will remain when video reset is executed.
+
+              /R  deactivate /F option
+
+    Note that there may be programs that do not appreciate this mode,
+    and will respond with strange colors. You must test this mode to find
+    out if it has the desired effect.
+
+    The VGA command also accepts the option without using a filespec.
+
+    Note: see VGA.DOC or run VGA/? for complete set of functions
+
+    ----------------------------------------------------------------------
+
+    PALMAN ver 2.2, Copyright 1992..95 by Horst Schaeffer
+    is part of the FONTMAN+PALMAN package - see READ.ME file
+
+    ----------------------------------------------------------------------
+***
+

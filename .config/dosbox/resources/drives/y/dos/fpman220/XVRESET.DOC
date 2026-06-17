@@ -1,0 +1,39 @@
+    旼컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴커
+    �         XVreset ver. 1.1 (c) 1994..95, Horst Schaeffer             �
+    읕컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴켸
+
+    Some programs make a "video reset" (BIOS function 0) just to clear
+    the screen, with the effect, that special character fonts or color
+    palettes are destroyed, and the defaults are activated from the VGA
+    card.
+
+    XVreset is a memory resident program (TSR), that catches these
+    unneccesary resets. XVreset clears the video RAM area instead, and
+    resets the cursor.
+
+    XVreset will do this only, when...
+
+    >>   the video mode is not changed by the reset request
+    >>   the video system is in 25 lines / 80 columns mode
+    >>   not with monochrome monitor
+    >>   not in a DOS shell under WINDOWS
+
+    Please test this TSR for those programs that obviously destroy the
+    character font. It is suggested to load the TSR (in a BAT file) before
+    running the program, and unload it afterwards.
+
+    Option /U to unload. "Load high" as usual.
+
+    Example:
+              lh XVreset
+              MYPROG
+              XVreset /u
+
+    No guarantees - XVreset has not been tested under all possible
+    conditions.
+
+    -----------------------------------------------
+    XVRESET.COM ver 1.1, Copyright 1994..1995 by Horst Schaeffer
+    is part of the FONTMAN+PALMAN tools - see READ.ME file
+
+=== 15 SEP 1995
