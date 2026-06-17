@@ -31,3 +31,5 @@ export PATH=$PATH:$WATCOM/binl:$WATCOM/binw
 export INCLUDE=$WATCOM/h
 export EDPATH=$WATCOM/eddat
 export WIPFC=$WATCOM/wipfc
+
+export LXQT_WAYLAND_COMPOSITOR="labwc"
