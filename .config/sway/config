@@ -12,8 +12,6 @@ exec mako
 exec kdeconnect-indicator
 exec wl-clip-persist --clipboard regular
 exec wl-paste --watch cliphist store
-exec ~/.local/scripts/battery-monitor
-# exec ~/.local/scripts/set-wallpaper random
 
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ VARIABLES                                                             │
@@ -23,7 +21,7 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term ghostty
+set $term kitty
 set $menu fuzzel
 
 
@@ -31,8 +29,7 @@ set $menu fuzzel
 # │ OUTPUT                                                                │
 # ╰───────────────────────────────────────────────────────────────────────╯
 # Run: swaymsg -t get_outputs
-output * bg /home/vyrx/Pictures/Wallpapers/others/a_forest_of_trees_with_fog.jpg fill
-# output * bg /home/vyrx/Pictures/Wallpapers/others/a_sculpture_of_a_man_with_a_face_on_his_head.png fill
+output * bg /home/shrek/Pictures/wallpapers/stary.jpg fill
 
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ INPUT & IDLE                                                          │
@@ -46,14 +43,8 @@ input type:touchpad {
 
 input * {
     repeat_delay 200
-    repeat_rate 60
+    repeat_rate 30
 }
-
-# Lock after 300s (5min), turn off monitors after 600s (10min), lock before sleep
-# exec swayidle -w \
-#     timeout 300 'swaylock -f' \
-#     timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-#     before-sleep 'swaylock -f'
 
 
 # Basic touchpad settings
