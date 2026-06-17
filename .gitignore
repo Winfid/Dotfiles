@@ -5,13 +5,15 @@
 ### Personal Files
 # DosBox
 .config/dosbox/HDD/*
+!.config/dosbox/HDD/README.md
 .config/dosbox/CDROM/*
+!.config/dosbox/CDROM/README.md
 .config/dosbox/soundfonts/*
 .config/dosbox/mt32-roms/*
-.cofig/dosbox/shell_history.txt
+.config/dosbox/shell_history.txt
 # MPD
-.config/playlists/*
-.config/database
-.config/log
+.config/mpdplaylists/*
+.config/mpd/database
+.config/mpd/log
 # Nicotine+
-.config/nicotine/
+.config/nicotine/*
