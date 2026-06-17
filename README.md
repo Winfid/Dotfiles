@@ -111,7 +111,7 @@ Runs automatically after all installs, with no user interaction required.
 
 All packages are available. swaync requires a COPR repo which the script enables automatically. Everything else installs from official Fedora repositories. Already installed packages are also skipped.
 
-'* = kinda...'
+`* = kinda...`
 
 ### Debian / Ubuntu is *Supported* *
 
