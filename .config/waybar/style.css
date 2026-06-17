@@ -1,0 +1,59 @@
+* {
+  font-family: "SF Pro Text", "SF Pro Display", "Font Awesome 6 Free Solid", "Font Awesome 6 Free";
+  font-size: 13px;
+  font-weight: 400;
+  color: #FFFFFF;
+  background: transparent;
+  min-height: 0;                /* prevent GTK from inflating height */
+}
+
+window#waybar { background: transparent; }
+
+/* Keep containers flat and tight */
+#workspaces, #group-status, #mpris, #battery, #pulseaudio, #clock {
+  margin: 0;                    /* no vertical margins */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* workspace strip */
+#workspaces {
+  padding: 0 4px;
+}
+
+/* workspace buttons */
+#workspaces button {
+  font-size: 12px;
+  color: #333333;
+  background: transparent;
+  border: none;
+  padding: 0 6px;               /* no vertical padding */
+  margin: 0 6px 0 0;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;                /* critical */
+}
+
+/* active workspace: underline only */
+#workspaces button.active {
+  background: transparent;
+  color: #333333;
+  border-bottom: 2px solid #333333;
+  padding-bottom: 0;            /* keep underline inside the 26px bar */
+}
+
+/* right group – flat */
+#group-status { background: transparent; color: #000; padding: 0 6px; }
+
+/* module spacing */
+#battery, #pulseaudio, #clock { padding: 0 4px; }
+
+/* clock a touch heavier */
+#clock { font-weight: 500; font-size: 13px; }
+
+/* mpris flat */
+#mpris { font-size: 12px; padding: 0 8px; }
+
+#custom-cpufreq, #cpu, #custom-power, #memory, #pulseaudio, #battery {
+  margin-right: 20px;   /* add spacing between each item */
+}
