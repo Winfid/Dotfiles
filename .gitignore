@@ -12,7 +12,7 @@
 .config/dosbox/mt32-roms/*
 .config/dosbox/shell_history.txt
 # MPD
-.config/mpdplaylists/*
+.config/mpd/playlists/*
 .config/mpd/database
 .config/mpd/log
 # Nicotine+
