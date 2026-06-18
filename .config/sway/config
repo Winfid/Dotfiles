@@ -1,18 +1,11 @@
-# Sway Configuration
-# man 5 sway
-
-
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ STARTUP                                                               │
 # ╰───────────────────────────────────────────────────────────────────────╯
 exec kanshi
 exec_always kanshictl reload
+exec_always autotiling
 exec waybar
 exec mako
-exec kdeconnect-indicator
-exec wl-clip-persist --clipboard regular
-exec wl-paste --watch cliphist store
-exec mpd
 
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ VARIABLES                                                             │
@@ -36,6 +29,7 @@ output * bg /home/shrek/Pictures/wallpapers/stary.jpg fill
 # │ INPUT & IDLE                                                          │
 # ╰───────────────────────────────────────────────────────────────────────╯
 input * {
+    xkb_layout "gb"
     repeat_delay 200
     repeat_rate 30
 }
@@ -78,6 +72,7 @@ bindsym $mod+q kill
 bindsym --locked XF86PowerOff exec systemctl suspend | swaylock
 
 # ─── Utilities ───
+bindsym $mod+slash exec ~/.local/scripts/cheatsheet
 bindsym Alt+period exec ~/.local/scripts/fuzzel-emoji
 bindsym $mod+BackSpace exec ~/.local/scripts/toggle-terminal-transparency
 bindsym $mod+Shift+Space exec ~/.local/scripts/toggle-waybar

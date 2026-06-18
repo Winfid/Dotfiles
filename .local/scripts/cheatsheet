@@ -1,0 +1,191 @@
+#!/usr/bin/env bash
+# sway-cheatsheet — paged fuzzel shortcut cheat sheet
+# Categories are derived from  # ─── Section ───  comments in your sway config.
+# Select "← Prev" or "→ Next" to change category page.
+# Usage: sway-cheatsheet [/path/to/sway/config]
+
+CONFIG="${1:-${XDG_CONFIG_HOME:-$HOME/.config}/sway/config}"
+
+if [[ ! -f "$CONFIG" ]]; then
+    notify-send -u critical "sway-cheatsheet" "Config not found: $CONFIG" 2>/dev/null
+    echo "Error: config not found: $CONFIG" >&2
+    exit 1
+fi
+
+# ── Resolve all set $variables ───────────────────────────────────────────────
+declare -A VARS
+while IFS= read -r line; do
+    varname=$(echo "$line" | awk '{print $2}')
+    varval=$(echo "$line"  | awk '{print $3}')
+    VARS["$varname"]="$varval"
+done < <(grep -E '^\s*set\s+\$' "$CONFIG")
+
+resolve_vars() {
+    local s="$1" prev=""
+    while [[ "$s" != "$prev" ]]; do
+        prev="$s"
+        for var in "${!VARS[@]}"; do s="${s//$var/${VARS[$var]}}"; done
+    done
+    echo "$s"
+}
+
+MOD_RAW="${VARS["\$mod"]:-Mod4}"
+case "${MOD_RAW,,}" in
+    mod4) MOD="Super" ;;
+    mod1) MOD="Alt"   ;;
+    *)    MOD="$MOD_RAW" ;;
+esac
+
+# ── Collect config + includes ────────────────────────────────────────────────
+collect_files() {
+    local file="$1" dir
+    dir="$(dirname "$file")"
+    echo "$file"
+    while IFS= read -r pat; do
+        pat="${pat/#\~/$HOME}"
+        [[ "$pat" != /* ]] && pat="$dir/$pat"
+        for f in $pat; do [[ -f "$f" ]] && echo "$f"; done
+    done < <(grep -E '^\s*include\s+' "$file" 2>/dev/null | awk '{print $2}')
+}
+mapfile -t FILES < <(collect_files "$CONFIG" | sort -u)
+
+# ── Parse bindings, tracking current section comment ─────────────────────────
+# Section headers are lines matching:  # ─── Some Name ───
+# Each bindsym after such a header belongs to that section.
+# Bindsyms before any section header fall into "General".
+# Bindsyms inside mode {} blocks are skipped.
+
+parse_bindings() {
+    local in_mode=0
+    local current_section="General"
+
+    while IFS= read -r line; do
+        # Detect mode block entry/exit
+        if [[ "$line" =~ ^[[:space:]]*mode[[:space:]] ]]; then in_mode=1; continue; fi
+        if [[ $in_mode -eq 1 ]]; then [[ "$line" =~ ^\} ]] && in_mode=0; continue; fi
+
+        # Detect section comment:  # ─── Name ───  (uses em-dash or regular dash variants)
+        if [[ "$line" =~ ^[[:space:]]*#[[:space:]]*[─—-]{3}[[:space:]]+(.*)[[:space:]]+[─—-]{3}[[:space:]]*$ ]]; then
+            current_section="${BASH_REMATCH[1]}"
+            # Strip any trailing/leading whitespace
+            current_section="${current_section#"${current_section%%[![:space:]]*}"}"
+            current_section="${current_section%"${current_section##*[![:space:]]}"}"
+            continue
+        fi
+
+        [[ "$line" =~ ^[[:space:]]*bindsym[[:space:]] ]] || continue
+
+        local rest="${line#*bindsym}"
+        rest="${rest#"${rest%%[! ]*}"}"
+        # Strip flags: --locked, --to-code, --release, --no-repeat, --input-device
+        while [[ "$rest" == --* ]]; do
+            rest="${rest#*[[:space:]]}"
+            rest="${rest#"${rest%%[! ]*}"}"
+        done
+
+        local key="${rest%% *}"
+        local cmd="${rest#* }"
+        cmd="${cmd#"${cmd%%[! ]*}"}"
+        [[ -z "$key" || -z "$cmd" || "$key" == "$cmd" ]] && continue
+
+        key="$(resolve_vars "$key")"
+        cmd="$(resolve_vars "$cmd")"
+
+        key="${key//$MOD_RAW/$MOD}"
+        key="${key//Mod4/Super}"; key="${key//Mod1/Alt}"
+
+        printf '%s\t%s\t%s\n' "$current_section" "$key" "$cmd"
+    done < <(cat "${FILES[@]}")
+}
+
+mapfile -t ALL_BINDINGS < <(parse_bindings)
+
+[[ ${#ALL_BINDINGS[@]} -eq 0 ]] && { notify-send "sway-cheatsheet" "No bindings found." 2>/dev/null; exit 1; }
+
+# ── Build per-category data ──────────────────────────────────────────────────
+declare -A CAT_ENTRIES
+declare -a CAT_ORDER
+
+for entry in "${ALL_BINDINGS[@]}"; do
+    cat="${entry%%	*}"
+    rest="${entry#*	}"
+    key="${rest%%	*}"
+    cmd="${rest#*	}"
+    if [[ -z "${CAT_ENTRIES[$cat]+_}" ]]; then
+        CAT_ORDER+=("$cat")
+        CAT_ENTRIES[$cat]=""
+    fi
+    CAT_ENTRIES[$cat]+="$key	$cmd"$'\n'
+done
+
+TOTAL="${#CAT_ORDER[@]}"
+
+# ── Format one page of bindings ──────────────────────────────────────────────
+format_page() {
+    local cat="$1"
+    while IFS=$'\t' read -r key cmd; do
+        [[ -z "$key" ]] && continue
+        printf "    %-26s  %s\n" "$key" "$cmd"
+    done <<< "${CAT_ENTRIES[$cat]}"
+}
+
+# Sentinel strings for nav items
+NAV_PREV="__NAV_PREV__"
+NAV_NEXT="__NAV_NEXT__"
+
+PAGE=0
+
+while true; do
+    cat="${CAT_ORDER[$PAGE]}"
+    prev_cat="${CAT_ORDER[$(( (PAGE - 1 + TOTAL) % TOTAL ))]}"
+    next_cat="${CAT_ORDER[$(( (PAGE + 1) % TOTAL ))]}"
+
+    DIVIDER="────────────────────────────────────────────────────────────────"
+    HEADER="$(printf '    %-26s  %s' 'SHORTCUT' 'COMMAND')"
+    NAV_PREV_LINE="$(printf '  ‹  %-28s  %s' "back: $prev_cat" "")"
+    NAV_NEXT_LINE="$(printf '  ›  %-28s  %s' "next: $next_cat" "")"
+    TITLE="$(printf '  %-30s  [%d / %d]' "  $cat" "$((PAGE+1))" "$TOTAL")"
+
+    PAGE_LINES="$(format_page "$cat")"
+
+    MENU="$TITLE
+$DIVIDER
+$HEADER
+$PAGE_LINES
+$DIVIDER
+$NAV_PREV_LINE
+$NAV_NEXT_LINE"
+
+    CHOSEN=$(printf '%s\n' "$MENU" \
+        | fuzzel --dmenu \
+            --prompt "⌨  " \
+            --width 72 \
+            --lines 22 \
+            --placeholder "Filter shortcuts…" \
+            --font "monospace:size=11" \
+        2>/dev/null) || true
+
+    [[ -z "$CHOSEN" ]] && break
+
+    case "$CHOSEN" in
+        "$NAV_PREV_LINE")
+            PAGE=$(( (PAGE - 1 + TOTAL) % TOTAL ))
+            continue ;;
+        "$NAV_NEXT_LINE")
+            PAGE=$(( (PAGE + 1) % TOTAL ))
+            continue ;;
+        "$TITLE"|"$DIVIDER"|"$HEADER")
+            continue ;;
+    esac
+
+    # It's a binding row — extract key and command
+    TRIMMED="${CHOSEN#    }"   # strip 4-space indent
+    KEY="${TRIMMED%%  *}"
+    KEY="${KEY%"${KEY##*[! ]}"}"   # rtrim
+    CMD="${TRIMMED#*  }"
+    CMD="${CMD#"${CMD%%[! ]*}"}"
+    [[ -z "$KEY" ]] && continue
+
+    notify-send -t 5000 "⌨  $KEY" "$CMD" 2>/dev/null || true
+    break
+done
