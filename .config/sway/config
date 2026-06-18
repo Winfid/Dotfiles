@@ -12,6 +12,7 @@ exec mako
 exec kdeconnect-indicator
 exec wl-clip-persist --clipboard regular
 exec wl-paste --watch cliphist store
+exec mpd
 
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ VARIABLES                                                             │
@@ -42,7 +43,6 @@ input * {
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ APPEARANCE & BEHAVIOR                                                 │
 # ╰───────────────────────────────────────────────────────────────────────╯
-# Border colors: black-metal theme
 client.focused #718096 #404552 #f7fafc #718096 #718096
 
 gaps inner 5
@@ -66,98 +66,24 @@ seat * hide_cursor 8000
 seat * hide_cursor when-typing enable
 
 # ╭───────────────────────────────────────────────────────────────────────╮
-# │ WINDOW RULES                                                          │
-# ╰───────────────────────────────────────────────────────────────────────╯
-# ─── Workspace Assignments ───
-assign [app_id="vesktop"] workspace number 10
-assign [class="Vesktop"] workspace number 10
-assign [app_id="obsidian"] workspace number 8
-assign [app_id="spotify"] workspace number 9
-assign [app_id="code"] workspace number 2
-assign [app_id="org.telegram.desktop"] workspace number 7
-assign [app_id="brave-todoist.com__-Default"] workspace number 6
-assign [app_id="brave-web.whatsapp.com__-Default"] workspace number 5
-assign [app_id="mpv"] workspace number 4
-
-# ─── Focus on Open ───
-for_window [app_id="vesktop"] focus
-for_window [class="Vesktop"] focus
-for_window [app_id="obsidian"] focus
-for_window [app_id="spotify"] focus
-for_window [app_id="code"] focus
-for_window [app_id="org.telegram.desktop"] focus
-for_window [app_id="brave-todoist.com__-Default"] focus
-for_window [app_id="brave-web.whatsapp.com__-Default"] focus
-for_window [app_id="mpv"] focus
-
-# ─── Floating Windows ───
-for_window [app_id="mpv"] floating enable, resize set width 960 height 540, move position center
-for_window [app_id="thunar"] floating enable, resize set width 1000 height 600, move position center
-for_window [class="feh"] floating enable, resize set width 960 height 540, move position center
-for_window [app_id="com.github.wwmm.easyeffects"] floating enable, resize set 1000 600, move position center
-for_window [app_id="com.vyrx.kanshi-switch"] floating enable, resize set width 400 height 220, move position center
-
-# ╭───────────────────────────────────────────────────────────────────────╮
 # │ KEYBINDINGS                                                           │
 # ╰───────────────────────────────────────────────────────────────────────╯
 # ─── Core Applications ───
 bindsym $mod+Return exec $term
 bindsym $mod+d exec $menu
-bindsym $mod+b exec brave
 bindsym $mod+e exec thunar
-bindsym $mod+c exec code
 bindsym $mod+o exec obsidian
-bindsym $mod+Shift+G exec geary
 bindsym $mod+q kill
-
-# ─── Terminal Applications ───
-bindsym Alt+slash exec ghostty -e btop
-bindsym Alt+N exec ghostty -e nvim
-bindsym Alt+M exec ghostty -e rmpc
-bindsym Alt+Q exec ghostty -e yazi
-bindsym Alt+I exec ghostty --class=com.vyrx.kanshi-switch -e ~/.local/scripts/kanshi-switch
-# bindsym $mod+Shift+Return exec ghostty -e tmux a 
-bindsym $mod+Shift+BackSpace exec ~/.local/scripts/run-scrcpy mirror
 
 bindsym --locked XF86PowerOff exec systemctl suspend | swaylock
 
-
-# ─── Web Applications ───
-bindsym $mod+a exec ~/.local/scripts/launch-webapp https://chatgpt.com
-bindsym $mod+Alt+a exec ~/.local/scripts/launch-webapp https://chat.z.ai
-# bindsym $mod+Alt+a exec ~/.local/scripts/launch-webapp https://www.kimi.com/en
-# bindsym $mod+Alt+a exec ~/.local/scripts/launch-webapp https://perplexity.ai
-bindsym $mod+Shift+a exec ~/.local/scripts/launch-webapp https://gemini.google.com
-bindsym $mod+T exec ~/.local/scripts/launch-webapp https://app.todoist.com/app
-bindsym $mod+Y exec ~/.local/scripts/launch-webapp https://youtube.com
-bindsym $mod+G exec ~/.local/scripts/launch-webapp https://github.com
-# bindsym $mod+Shift+G exec ~/.local/scripts/launch-webapp https://mail.google.com
-bindsym Alt+G exec ghostty --title='gh-dash' -e gh dash
-bindsym $mod+X exec ~/.local/scripts/launch-webapp https://X.com
-bindsym $mod+Shift+W exec ~/.local/scripts/launch-webapp https://web.whatsapp.com
-bindsym $mod+Backslash exec ~/.local/scripts/launch-webapp https://devhints.io
-bindsym Alt+Space exec ~/.local/scripts/launch-webapp https://vyrx.dev
-
 # ─── Utilities ───
-bindsym $mod+Alt+m exec ~/.local/scripts/dual-dac
-bindsym Alt+comma exec cliphist list | fuzzel --dmenu | cliphist decode | wl-copy
 bindsym Alt+period exec ~/.local/scripts/fuzzel-emoji
-bindsym Alt+P exec hyprpicker -a
 bindsym $mod+BackSpace exec ~/.local/scripts/toggle-terminal-transparency
 bindsym $mod+Shift+Space exec ~/.local/scripts/toggle-waybar
-bindsym $mod+Shift+M exec ~/.local/scripts/beats
-bindsym $mod+XF86AudioMute exec ~/.local/scripts/audio-switch
 bindsym $mod+Shift+n exec makoctl dismiss -a
 bindsym $mod+n exec makoctl restore
 bindsym $mod+Alt+n exec ~/.local/scripts/toggle-wlsunset
-bindsym $mod+R exec ~/.local/scripts/screenrecord --with-desktop-audio 
-bindsym $mod+Shift+R exec ~/.local/scripts/screenrecord --with-microphone-audio 
-bindsym $mod+P exec ~/.local/scripts/screenshot
-bindsym $mod+Shift+P exec ~/.local/scripts/screenshot fullscreen
-bindsym Print exec grim
-
-# Launch Pixel_9
-bindsym $mod+Alt+p exec ~/Android/Sdk/emulator/emulator -avd Pixel_9 &
 
 # ─── Wallpaper ───
 bindsym Ctrl+Alt+Space exec ~/.local/scripts/set-wallpaper random
@@ -168,16 +94,6 @@ bindsym $mod+Alt+l exec swaylock
 bindsym $mod+escape exec ~/.local/scripts/powermenu
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+e exec swaynag -t warning -m 'Exit sway?' -B 'Yes' 'swaymsg exit'
-
-# ─── Monitor Toggle ───
-bindsym Ctrl+Shift+1 exec ~/.local/scripts/toggle-output eDP-1
-bindsym Ctrl+Shift+2 exec ~/.local/scripts/toggle-output HDMI-A-1
-
-# ─── Hardware Keys ───
-bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
 # Laptop brightness (brightnessctl)
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
