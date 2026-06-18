@@ -34,27 +34,9 @@ output * bg /home/shrek/Pictures/wallpapers/stary.jpg fill
 # ╭───────────────────────────────────────────────────────────────────────╮
 # │ INPUT & IDLE                                                          │
 # ╰───────────────────────────────────────────────────────────────────────╯
-input type:touchpad {
-    dwt enabled
-    tap enabled
-    natural_scroll enabled
-    middle_emulation enabled
-}
-
 input * {
     repeat_delay 200
     repeat_rate 30
-}
-
-
-# Basic touchpad settings
-input type:touchpad {
-    tap enabled
-    natural_scroll enabled
-    dwt enabled              # Disable while typing
-    scroll_method two_finger
-    middle_emulation enabled
-    click_method clickfinger
 }
 
 # ╭───────────────────────────────────────────────────────────────────────╮
@@ -68,7 +50,6 @@ smart_gaps on
 default_border pixel 2
 default_floating_border pixel 2
 
-# font pango:monospace 0.1
 font pango:DejaVu Sans Mono 9
 titlebar_border_thickness 0
 titlebar_padding 3
@@ -121,17 +102,13 @@ for_window [app_id="com.vyrx.kanshi-switch"] floating enable, resize set width 4
 # ╰───────────────────────────────────────────────────────────────────────╯
 # ─── Core Applications ───
 bindsym $mod+Return exec $term
-bindsym $mod+Space exec $menu
+bindsym $mod+d exec $menu
 bindsym $mod+b exec brave
 bindsym $mod+e exec thunar
 bindsym $mod+c exec code
 bindsym $mod+o exec obsidian
 bindsym $mod+Shift+G exec geary
 bindsym $mod+q kill
-
-# ─── Communication & Media ───
-bindsym $mod+d exec vesktop
-bindsym $mod+m exec spotify-launcher
 
 # ─── Terminal Applications ───
 bindsym Alt+slash exec ghostty -e btop

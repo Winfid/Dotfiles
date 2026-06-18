@@ -11,23 +11,13 @@ set -gx MPD_HOST "/run/user/"(id -u)"/mpd/socket"
 
 # PATH
 fish_add_path ~/.local/bin
-# fish_add_path ~/.local/scripts
-fish_add_path ~/dev-tools/flutter/bin
-fish_add_path ~/.pub-cache/bin
-fish_add_path ~/.spicetify/bin
+fish_add_path ~/.local/scripts
 
 # Keybinds
 bind \ck sessionizer
 
 # Tools
-fzf --fish | source
-zoxide init fish | source
 starship init fish | source
-
-# Keychain
-if status is-interactive
-    keychain --eval --quiet id_rsa | source
-end
 
 # Aliases
 source ~/.config/fish/aliases.fish
