@@ -4,15 +4,33 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DOTFILES_DIR"
 
+print_help() {
+  cat <<'EOF'
+Usage: ./deploy.sh [OPTION]
+
+Options:
+  (none)          Symlink all dotfiles to $HOME
+  -n, --dry-run   Preview changes without modifying any files
+  -R, --restow    Remove stale symlinks and re-link all dotfiles
+  -D, --unstow    Remove all dotfiles symlinks from $HOME
+  -h, --help      Show this help message
+EOF
+}
+
 MODE="deploy"
 case "${1:-}" in
 "") ;;
---dry-run | -n) MODE="dry-run" ;;
---unstow | -D) MODE="unstow" ;;
---restow | -R) MODE="restow" ;;
+-n | --dry-run) MODE="dry-run" ;;
+-D | --unstow) MODE="unstow" ;;
+-R | --restow) MODE="restow" ;;
+-h | --help)
+  print_help
+  exit 0
+  ;;
 *)
-  echo "Unknown option: $1"
-  echo "Usage: ./deploy.sh [--dry-run|-n | --unstow|-D | --restow|-R]"
+  echo "Error: Unknown option '$1'"
+  echo
+  print_help
   exit 1
   ;;
 esac
