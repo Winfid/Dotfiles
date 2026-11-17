@@ -1,0 +1,25 @@
+font=JetBrainsMono Nerd Font 11
+anchor=top-right
+layer=overlay
+width=340
+margin=14
+padding=14,18
+border-size=0
+border-radius=0
+icons=0
+markup=1
+text-alignment=left
+default-timeout=5000
+max-visible=4
+
+background-color=#16161e
+text-color=#c0caf5
+progress-color=over #3d59a1
+
+format=<span foreground="#7dcfff" size="small">%a</span>\n<b>%s</b>\n<span foreground="#a9b1d6">%b</span>
+
+[urgency=critical]
+background-color=#16161e
+border-size=1
+border-color=#f7768e
+default-timeout=0

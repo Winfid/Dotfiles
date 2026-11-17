@@ -1,0 +1,55 @@
+#!/bin/bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$DOTFILES_DIR"
+
+DRY_RUN=false
+if [[ "${1:-}" == "--dry-run" || "${1:-}" == "-n" ]]; then
+  DRY_RUN=true
+fi
+
+# Check stow is installed
+if ! command -v stow >/dev/null 2>&1; then
+  echo "Error: GNU Stow is not installed"
+  exit 1
+fi
+
+# Verify .git folder is present
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Error: $DOTFILES_DIR is not a Git repository."
+  exit 1
+fi
+
+# Abort if there are uncommitted changes
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo "Error: Uncommitted changes detected in $DOTFILES_DIR."
+  echo "Please commit or stash your changes before running this script."
+  exit 1
+fi
+
+# Check .stow-local-ignore exists
+IGNORE_FILE="$DOTFILES_DIR/.stow-local-ignore"
+if [[ ! -f "$IGNORE_FILE" ]]; then
+  echo "Error: .stow-local-ignore is missing from the repository."
+  echo "Please create and commit .stow-local-ignore before running deploy" # This is a note for me, you can ignore or delete if you want
+  exit 1
+fi
+
+# Run dry-run or run actual deployment
+if [[ "$DRY_RUN" == true ]]; then
+  echo "=== DRY RUN MODE (No files will be modified) ==="
+  stow -n -v -t "$HOME" .
+  echo "=== Dry run complete ==="
+  exit 0
+fi
+
+# Adopt conflicting files into dotfiles + create symlinks in $HOME
+echo "Adopting conflicts and creating symlinks..."
+stow --adopt -t "$HOME" .
+
+# Overwrite adopted files with dotfiles
+echo "Restoring repository versions..."
+git reset --hard HEAD
+
+echo "Done! All dotfiles have been linked to $HOME."

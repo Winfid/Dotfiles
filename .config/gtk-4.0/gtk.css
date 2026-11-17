@@ -1,0 +1,110 @@
+/* Cool Blue GTK theme */
+
+@define-color bg        #1a1b26;
+@define-color bg_dark   #16161e;
+@define-color bg_hl     #292e42;
+@define-color fg        #c0caf5;
+@define-color dim       #565f89;
+@define-color accent    #73daca;
+@define-color accent_hi #94e4d8;
+@define-color urgent    #f7768e;
+
+@define-color theme_bg_color @bg;
+@define-color theme_fg_color @fg;
+@define-color theme_base_color @bg;
+@define-color theme_text_color @fg;
+@define-color theme_selected_bg_color @accent;
+@define-color theme_selected_fg_color @bg;
+@define-color borders @bg_hl;
+
+* { border-radius: 0; box-shadow: none; text-shadow: none; }
+
+/* one background everywhere */
+window, window.background, .background,
+box, grid, stack, revealer, actionbar,
+notebook, notebook > stack,
+viewport, scrolledwindow, list, row, .view {
+    background-color: @bg;
+    color: @fg;
+}
+
+row { border-bottom: 1px solid @bg_hl; }
+row:hover { background-color: @bg; }
+row:selected, row:focus { background-color: @bg_hl; }
+separator { background: @bg_hl; min-height: 1px; min-width: 1px; }
+
+headerbar {
+    background: @bg;
+    color: @fg;
+    border-bottom: 1px solid @bg_hl;
+}
+
+/* text selection and entries */
+selection { background-color: alpha(@accent, 0.3); color: @fg; }
+entry, spinbutton, textview text {
+    background: @bg_dark;
+    color: @fg;
+    border: 1px solid @bg_hl;
+    padding: 2px 6px;
+}
+entry:focus, spinbutton:focus { border-color: @accent; }
+
+/* scrollbars */
+scrollbar, scrollbar trough { background: transparent; border: none; }
+scrollbar slider { background: @bg_hl; min-width: 6px; min-height: 6px; border: none; }
+scrollbar slider:hover { background: @dim; }
+
+/* tooltips */
+tooltip, tooltip.background {
+    background: @bg_dark;
+    color: @fg;
+    border: 1px solid @bg_hl;
+}
+
+/* tabs */
+notebook > header { background: @bg; border-bottom: 1px solid @bg_hl; }
+notebook > header > tabs > tab { background: transparent; color: @dim; border: none; }
+notebook > header > tabs > tab:hover { color: @fg; }
+notebook > header > tabs > tab:checked {
+    color: @fg;
+    box-shadow: inset 0 -2px @accent;
+}
+
+/* buttons */
+button {
+    background: transparent;
+    background-image: none;
+    color: @fg;
+    border: none;
+    padding: 4px 8px;
+}
+button:hover { background: @bg_hl; }
+button:checked { background: @bg_hl; color: @accent; }
+button box, button label, button image, button stack { background: transparent; }
+
+/* dropdowns + menus + popups */
+dropdown > button, combobox button, button.combo {
+    background: @bg_hl;
+    padding: 4px 10px;
+}
+popover, popover contents, popover.background, menu, .menu {
+    background: @bg;
+    border: 1px solid @bg_hl;
+}
+modelbutton:hover, popover row:hover, menuitem:hover { background: @bg_hl; }
+
+/* sliders */
+scale trough { background: @bg_hl; min-height: 4px; border: none; }
+scale highlight, scale trough highlight { background: @accent; min-height: 4px; border: none; }
+scale slider {
+    background: @accent;
+    border: none;
+    min-width: 10px;
+    min-height: 14px;
+    margin: -5px 0;
+}
+scale slider:hover { background: @accent_hi; }
+scale marks, scale indicator, scale value { color: @dim; }
+
+progressbar trough, levelbar trough { background: @bg_hl; min-height: 3px; }
+progressbar progress, levelbar block.filled { background: @accent; min-height: 3px; }

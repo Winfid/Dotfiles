@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# Pick a theme and a wallpaper with fuzzel. The wallpaper is recolored to the
+# chosen theme with gowall and set with swaybg.
+#   wallpaper-select            open the picker
+#   wallpaper-select --restore  re-apply the last choice (use at login)
+#   wallpaper-select --clean    delete all converted images
+
+dir="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+cache="$HOME/.cache/wallpaper-themes"
+state="$HOME/.cache/wallpaper-state"
+fallback_color="1a1b26"
+
+# state file: line 1 = theme, line 2 = wallpaper (path relative to $dir)
+theme="original"
+wall=""
+[ -f "$state" ] && {
+  read -r theme
+  read -r wall
+} <"$state"
+[ -z "$theme" ] && theme="original"
+
+save_state() { printf '%s\n%s\n' "$theme" "$wall" >"$state"; }
+
+list_walls() {
+  find "$dir" -type f \
+    \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
+    -printf '%P\n' | sort
+}
+
+# original + every theme gowall knows
+list_themes() {
+  echo original
+  command -v gowall >/dev/null && gowall list 2>/dev/null
+}
+
+pick_theme() { list_themes | fuzzel --dmenu -p "theme > "; }
+
+# print the image to use for the current theme + wallpaper & convert it if needed
+themed() {
+  src="$dir/$wall"
+  if [ "$theme" = "original" ]; then
+    echo "$src"
+    return
+  fi
+  if ! command -v gowall >/dev/null; then
+    notify-send "Wallpaper" "gowall isn't installed, using original"
+    echo "$src"
+    return
+  fi
+  out="$cache/$theme/${wall%.*}.png"
+  # convert when no cached copy, or original is newer
+  if [ ! -f "$out" ] || [ "$src" -nt "$out" ]; then
+    mkdir -p "$(dirname "$out")"
+    notify-send -t 2000 "Wallpaper" "Converting to $theme..."
+    if ! gowall convert "$src" -t "$theme" --output "$out" --preview false >/dev/null 2>&1 ||
+      [ ! -f "$out" ]; then
+      rm -f "$out"
+      notify-send "Wallpaper" "Conversion failed, using the original"
+      echo "$src"
+      return
+    fi
+  fi
+  echo "$out"
+}
+
+apply() {
+  [ -n "$wall" ] && [ -f "$dir/$wall" ] || return 1
+  img=$(themed)
+  # start new one first then kill old one
+  old=$(pgrep -x swaybg)
+  setsid -f swaybg -m fill -i "$img" >/dev/null 2>&1
+  sleep 0.3
+  [ -n "$old" ] && kill $old 2>/dev/null
+  return 0
+}
+
+case "$1" in
+--restore)
+  apply || setsid -f swaybg -c "$fallback_color" >/dev/null 2>&1
+  exit 0
+  ;;
+--clean)
+  rm -rf "$cache"
+  notify-send "Wallpaper" "Converted images cleared"
+  exit 0
+  ;;
+esac
+
+if [ ! -d "$dir" ]; then
+  notify-send "Wallpaper" "Folder not found: $dir"
+  exit 1
+fi
+
+while true; do
+  # shows the current theme, pick it to change theme
+  choice=$({
+    printf '» theme: %s\n' "$theme"
+    list_walls
+  } | fuzzel --dmenu -p "wall > ")
+  [ -z "$choice" ] && exit 0
+
+  case "$choice" in
+  "» theme: "*)
+    t=$(pick_theme)
+    if [ -n "$t" ]; then
+      theme="$t"
+      save_state
+      apply # re-theme the current wallpaper
+    fi
+    ;;
+  *)
+    wall="$choice"
+    save_state
+    apply
+    exit 0
+    ;;
+  esac
+done

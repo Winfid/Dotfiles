@@ -1,0 +1,102 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "type": "kitty-direct",
+        "source": "~/.config/fastfetch/punpun.png",
+        "width": 30,
+        "height": 15,
+        "padding": {
+            "top": 1,
+            "left": 3,
+            "right": 2
+        }
+    },
+    "display": {
+        "separator": "",
+        "key": {
+            "width": 0
+        }
+    },
+    "modules": [
+        "break",
+        {
+            "type": "custom",
+            "format": " "
+        },
+        {
+            "type": "title",
+            "key": "{#35}{#}usr      ",
+            "format": "{1>17} {#35}"
+        },
+        {
+            "type": "title",
+            "key": "{#35}{#}host     ",
+            "format": "{2>17} {#35}"
+        },
+        {
+            "type": "custom",
+            "format": " "
+        },
+        {
+            "type": "os",
+            "key": "{#35}{#}os       ",
+            "format": "{2>17} {#35}"
+        },
+        {
+            "type": "kernel",
+            "key": "{#35}{#}ker      ",
+            "format": "{release>17} {#35}"
+        },
+        {
+            "type": "wm",
+            "key": "{#35}{#}wm       ",
+            "format": "{pretty-name>17} {#35}"
+        },
+        {
+            "type": "shell",
+            "key": "{#35}{#}sh       ",
+            "format": "{1>17} {#35}"
+        },
+        {
+            "type": "terminal",
+            "key": "{#35}{#}term     ",
+            "format": "{1>17} {#35}"
+        },
+        {
+            "type": "custom",
+            "format": " "
+        },
+        {
+            "type": "command",
+            "key": "{#35}{#}pkg      ",
+            "text": "printf '%17s' \"$(pacman -Qqe | wc -l)\"",
+            "format": "{1} {#35}"
+        },
+        {
+            "type": "command",
+            "key": "{#35}{#}upt      ",
+            "text": "uptime | awk -F'(up |[,])' '{if ($2 ~ /day/) {val=$2 $3} else {val=$2}; gsub(/ days? ?/, \"d \", val); gsub(/:/, \"h \", val); if (val !~ /m/) val=val\"m\"; printf \"%17s\", val}'",
+            "format": "{1} {#35}"
+        },
+        {
+	          "type": "command",
+	          "key": "{#35}{#}cpu     ",
+	          "text": "awk '{printf \"%18s\", $1}' /proc/loadavg",
+	          "format": "{1} {#35}"
+	      },
+        {
+            "type": "memory",
+            "key": "{#35}{#}mem      ",
+            "format": "{1>7} / {2>7} {#35}"
+        },
+        {
+            "type": "custom",
+            "format": " "
+        },
+        "break",
+        {
+            "type": "custom",
+            "format": " "
+        }
+    ]
+}
