@@ -78,6 +78,7 @@
             "text": "uptime | awk -F'(up |[,])' '{if ($2 ~ /day/) {val=$2 $3} else {val=$2}; gsub(/ days? ?/, \"d \", val); gsub(/:/, \"h \", val); if (val !~ /m/) val=val\"m\"; printf \"%17s\", val}'",
             "format": "{1} {#35}"
         },
+        "break",
         {
 	          "type": "command",
 	          "key": "{#35}{#}cpu     ",

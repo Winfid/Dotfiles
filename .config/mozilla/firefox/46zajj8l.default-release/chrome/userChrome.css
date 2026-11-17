@@ -1,0 +1,11 @@
+* {
+  border-radius: 0px !important;
+}
+
+:root {
+  --tab-border-radius: 0px !important;
+}
+
+:root {
+  --toolbarbutton-border-radius: 0px !important;
+}
