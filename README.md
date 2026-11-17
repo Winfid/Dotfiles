@@ -1,3 +1,4 @@
+
 # dotfiles
 
 my minimal and very blue [niri](https://github.com/YaLTeR/niri) rice for CachyOS.
@@ -14,10 +15,10 @@ my minimal and very blue [niri](https://github.com/YaLTeR/niri) rice for CachyOS
 | Notifications | mako |
 | Terminal | Kitty |
 | Shell | fish |
-| Fetch | fastfetch |
+| SysFetch | fastfetch |
 | Music | rmpc + mpd |
 | Wallpaper | swaybg + fuzzel + gowall |
-| Clipboard history | cliphist + fuzzel |
+| Clipboard | cliphist + fuzzel |
 | Editor | neovim + LazyVim |
 
 ## install
@@ -31,8 +32,8 @@ Official:
 ```bash
 sudo pacman -S waybar kitty fuzzel mako swaybg cliphist wl-clipboard \
     fastfetch fish fish-pure-prompt mpd rmpc mpc cava eza bat ugrep \
-    btop libnotify \
-    ttf-jetbrains-mono-nerd ttf-sourcecodepro-nerd # Needed fonts
+    btop libnotify stow \ # stow is needed for deploy to work
+    ttf-jetbrains-mono-nerd ttf-sourcecodepro-nerd # needed fonts
 ```
 
 AUR:
@@ -60,6 +61,21 @@ chmod +x deploy
 Once you've confirmed everything run `deploy` with:
 ```bash
 ./deploy
+```
+
+### other options
+to cleanly remove all symlinks run:
+```bash
+./deploy --unstow
+# OR
+./deploy -D
+```
+
+to clean up stale symlinks and re-link everything all at once run:
+```bash
+./deploy --restow
+# OR
+./deploy -R
 ```
 
 ## things to edit for your machine
