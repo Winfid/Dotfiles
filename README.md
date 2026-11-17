@@ -32,8 +32,11 @@ Official:
 ```bash
 sudo pacman -S waybar kitty fuzzel mako swaybg cliphist wl-clipboard \
     fastfetch fish fish-pure-prompt mpd rmpc mpc cava eza bat ugrep \
-    btop libnotify stow \ # stow is needed for deploy to work
-    ttf-jetbrains-mono-nerd ttf-sourcecodepro-nerd # needed fonts
+    # stow is needed for deploy to work \
+    btop libnotify stow \
+    # needed fonts \
+    ttf-jetbrains-mono-nerd ttf-sourcecodepro-nerd
+
 ```
 
 AUR:
