@@ -4,10 +4,18 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$DOTFILES_DIR"
 
-DRY_RUN=false
-if [[ "${1:-}" == "--dry-run" || "${1:-}" == "-n" ]]; then
-  DRY_RUN=true
-fi
+MODE="deploy"
+case "${1:-}" in
+"") ;;
+--dry-run | -n) MODE="dry-run" ;;
+--unstow | -D) MODE="unstow" ;;
+--restow | -R) MODE="restow" ;;
+*)
+  echo "Unknown option: $1"
+  echo "Usage: ./deploy.sh [--dry-run|-n | --unstow|-D | --restow|-R]"
+  exit 1
+  ;;
+esac
 
 # Check stow is installed
 if ! command -v stow >/dev/null 2>&1; then
@@ -36,20 +44,31 @@ if [[ ! -f "$IGNORE_FILE" ]]; then
   exit 1
 fi
 
-# Run dry-run or run actual deployment
-if [[ "$DRY_RUN" == true ]]; then
+# Run specific mode
+case "$MODE" in
+dry-run)
   echo "=== DRY RUN MODE (No files will be modified) ==="
   stow -n -v -t "$HOME" .
-  echo "=== Dry run complete ==="
   exit 0
-fi
-
-# Adopt conflicting files into dotfiles + create symlinks in $HOME
-echo "Adopting conflicts and creating symlinks..."
-stow --adopt -t "$HOME" .
-
-# Overwrite adopted files with dotfiles
-echo "Restoring repository versions..."
-git reset --hard HEAD
-
-echo "Done! All dotfiles have been linked to $HOME."
+  ;;
+unstow)
+  echo "Removing all dotfiles symlinks from $HOME..."
+  stow -D -t "$HOME" .
+  echo "Done! All symlinks removed."
+  exit 0
+  ;;
+restow)
+  echo "Pruning old symlinks and re-linking dotfiles..."
+  stow -D -t "$HOME" .
+  stow --adopt -t "$HOME" .
+  git reset --hard HEAD
+  echo "Done! Dotfiles restowed."
+  exit 0
+  ;;
+deploy)
+  echo "Adopting existing conflicts and creating symlinks..."
+  stow --adopt -t "$HOME" .
+  echo "Overwriting adopted files with repository versions..."
+  git reset --hard HEAD
+  ;;
+esac
