@@ -30,19 +30,17 @@ Official:
 
 ```bash
 sudo pacman -S waybar kitty fuzzel mako swaybg cliphist wl-clipboard \
-    fastfetch fish fish-pure-prompt mpd rmpc mpc cava \
+    fastfetch fish fish-pure-prompt mpd rmpc mpc cava eza bat ugrep \
+    btop libnotify \
+    ttf-jetbrains-mono-nerd ttf-sourcecodepro-nerd # Needed fonts
 ```
 
 AUR:
 
 ```bash
-yay -S gowall # or replace `yay' with your preferred AUR helper
+# replace `yay' with your preferred AUR helper
+yay -S gowall fish-pure-prompt
 ```
-
-
-Fonts:
-- JetBrainsMono Nerd - `ttf-jetbrains-mono-nerd`
-- SauceCodePro Nerd - `ttf-sourcecodepro-nerd`
 
 ## usage
 
@@ -87,10 +85,10 @@ These are my own I added on top of niri's default ones.
 
 - Original images are kept intact and converted copies are cached in `~/.cache/wallpaper-themes/`.
 - Drop new wallpapers into `~/Pictures/Wallpapers` and they appear in the list.
-- `wallpaper-select --restore` re-applies your last choice (runs it at login).
+- `wallpaper-select --restore` re-applies your last choice.
 - `wallpaper-select --clean` clears the cache.
 
 ## credits
 
-- My fastfetch layout is adapted from [u/midnightszz's](https://github.com/midnightszz/NordMacOS/tree/main/config/fastfetch).
+- My fastfetch is adapted from [u/midnightszz's](https://github.com/midnightszz/NordMacOS/tree/main/config/fastfetch).
 - [gowall](https://github.com/Achno/gowall) does the wallpaper recoloring.
