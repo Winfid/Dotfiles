@@ -86,7 +86,7 @@ to clean up stale symlinks and re-link everything all at once run:
 - **Monitors and input** in `~/.config/niri/config.kdl`**:** Output names, scaling, touchpad, and keyboard layout are for my PC.
 - **Waybar modules:** Network names depend on your hardware.
 - **RMPC:** Must be pointed to your own MPD address and music folder.
-- **Wallpapers** go in `~/Pictures/Wallpapers`. None are included since I don't own the art.
+- **Wallpapers** go in `~/Pictures/Wallpapers`.
 
 ## keybinds
 These are my own I added on top of niri's default ones.
