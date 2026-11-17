@@ -91,4 +91,5 @@ These are my own I added on top of niri's default ones.
 ## credits
 
 - My fastfetch is adapted from [u/midnightszz's](https://github.com/midnightszz/NordMacOS/tree/main/config/fastfetch).
-- [gowall](https://github.com/Achno/gowall) does the wallpaper recoloring.
+- [Gowall](https://github.com/Achno/gowall) does the wallpaper recoloring.
+- Vesktop theme is based on [system24 by refact0r](https://github.com/refact0r/system24/tree/e0cc9760ce1b3d12d5fce906bfc430a2561b9de6)
