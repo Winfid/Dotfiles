@@ -22,7 +22,7 @@ wall=""
 save_state() { printf '%s\n%s\n' "$theme" "$wall" >"$state"; }
 
 list_walls() {
-  find "$dir" -type f \
+  find -L "$dir" -type f \
     \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
     -printf '%P\n' | sort
 }
