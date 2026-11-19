@@ -49,7 +49,7 @@
         global: {
             ":":       CommandMode,
             "-":       VolumeDown,
-            "<C-p>":       Stop,
+            "<C-p>":   Stop,
             "+":       VolumeUp,
             "<Tab>":   NextTab,
             "<S-Tab>": PreviousTab,
