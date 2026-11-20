@@ -43,7 +43,7 @@ layout {
 
 hotkey-overlay { skip-at-startup; }
 
-spawn-at-startup "$HOME/.local/bin/wallpaper-select" "--restore"
+spawn-at-startup "wallpaper-select" "--restore"
 spawn-at-startup "waybar"
 spawn-at-startup "/usr/bin/lxqt-policykit-agent"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
