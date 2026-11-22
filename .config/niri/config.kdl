@@ -47,6 +47,7 @@ spawn-at-startup "wallpaper-select" "--restore"
 spawn-at-startup "waybar"
 spawn-at-startup "/usr/bin/lxqt-policykit-agent"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "udiskie"
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
