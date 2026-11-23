@@ -1,4 +1,5 @@
 
+
 # dotfiles
 
 my minimal and very blue [niri](https://github.com/YaLTeR/niri) rice for CachyOS.
@@ -32,6 +33,7 @@ Official:
 ```bash
 sudo pacman -S waybar kitty fuzzel mako swaybg cliphist wl-clipboard \
     fastfetch fish fish-pure-prompt mpd rmpc mpc cava eza bat ugrep \
+    udiskie udisks2 exfatprogs dosfstools \
     # stow is needed for deploy to work \
     btop libnotify stow \
     # needed fonts \
